@@ -1,0 +1,11 @@
+nick\model\User.class
+nick\model\FriendRelation.class
+nick\model\Comment.class
+nick\model\Diary.class
+nick\dao\DiaryMapper.class
+nick\controller\UserController.class
+nick\dao\CommentMapper.class
+nick\service\UserServiceImpl.class
+nick\dao\UserMapper.class
+nick\dao\FriendRelationMapper.class
+nick\service\IUserService.class

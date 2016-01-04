@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nick.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="nick.model.User" >
+    <id column="PK_USER_ID" property="pkUserId" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
+    <result column="USER_GENDER" property="userGender" jdbcType="INTEGER" />
+    <result column="USER_PICTURE" property="userPicture" jdbcType="VARCHAR" />
+    <result column="USER_INTRODUCE" property="userIntroduce" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_USER_ID, USER_NAME, USER_PASSWORD, USER_GENDER, USER_PICTURE, USER_INTRODUCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where PK_USER_ID = #{pkUserId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where PK_USER_ID = #{pkUserId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="nick.model.User" >
+    insert into t_user (PK_USER_ID, USER_NAME, USER_PASSWORD, 
+      USER_GENDER, USER_PICTURE, USER_INTRODUCE
+      )
+    values (#{pkUserId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userGender,jdbcType=INTEGER}, #{userPicture,jdbcType=VARCHAR}, #{userIntroduce,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="nick.model.User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkUserId != null" >
+        PK_USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="userPassword != null" >
+        USER_PASSWORD,
+      </if>
+      <if test="userGender != null" >
+        USER_GENDER,
+      </if>
+      <if test="userPicture != null" >
+        USER_PICTURE,
+      </if>
+      <if test="userIntroduce != null" >
+        USER_INTRODUCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkUserId != null" >
+        #{pkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userPicture != null" >
+        #{userPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntroduce != null" >
+        #{userIntroduce,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="nick.model.User" >
+    update t_user
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        USER_GENDER = #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userPicture != null" >
+        USER_PICTURE = #{userPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntroduce != null" >
+        USER_INTRODUCE = #{userIntroduce,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_USER_ID = #{pkUserId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="nick.model.User" >
+    update t_user
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      USER_GENDER = #{userGender,jdbcType=INTEGER},
+      USER_PICTURE = #{userPicture,jdbcType=VARCHAR},
+      USER_INTRODUCE = #{userIntroduce,jdbcType=VARCHAR}
+    where PK_USER_ID = #{pkUserId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap type="nick.model.User" id="resultMap1" extends="BaseResultMap">
+  	<collection property="diartList" javaType="List" ofType="nick.model.Diary">
+  		    <id column="DIARY_ID" property="diaryId" jdbcType="INTEGER" />
+		    <result column="DIARY_CONTENT" property="diaryContent" jdbcType="VARCHAR" />
+		    <result column="DIARY_PICTURE" property="diaryPicture" jdbcType="VARCHAR" />
+		    <result column="DIARY_USER_BELONGED" property="diaryUserBelonged" jdbcType="INTEGER" />
+		    <result column="DIARY_TIME" property="diaryTime" jdbcType="TIMESTAMP" />
+		    <result column="DIARY_LOCATION" property="diaryLocation" jdbcType="VARCHAR" />
+  	</collection>
+  </resultMap>
+  <select id="getAll" resultMap="resultMap1">
+  	SELECT
+	t_diary.DIARY_ID,
+	t_diary.DIARY_CONTENT,
+	t_diary.DIARY_PICTURE,
+	t_diary.DIARY_USER_BELONGED,
+	t_diary.DIARY_TIME,
+	t_diary.DIARY_LOCATION,
+	t_user.PK_USER_ID,
+	t_user.USER_NAME,
+	t_user.USER_PASSWORD,
+	t_user.USER_GENDER,
+	t_user.USER_PICTURE,
+	t_user.USER_INTRODUCE
+	FROM
+	t_user
+	INNER JOIN t_diary ON t_diary.DIARY_USER_BELONGED = t_user.PK_USER_ID
+  </select>
+</mapper>

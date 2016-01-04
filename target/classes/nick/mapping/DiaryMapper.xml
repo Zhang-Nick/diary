@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nick.dao.DiaryMapper" >
+  <resultMap id="BaseResultMap" type="nick.model.Diary" >
+    <id column="DIARY_ID" property="diaryId" jdbcType="INTEGER" />
+    <result column="DIARY_CONTENT" property="diaryContent" jdbcType="VARCHAR" />
+    <result column="DIARY_PICTURE" property="diaryPicture" jdbcType="VARCHAR" />
+    <result column="DIARY_USER_BELONGED" property="diaryUserBelonged" jdbcType="INTEGER" />
+    <result column="DIARY_TIME" property="diaryTime" jdbcType="TIMESTAMP" />
+    <result column="DIARY_LOCATION" property="diaryLocation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DIARY_ID, DIARY_CONTENT, DIARY_PICTURE, DIARY_USER_BELONGED, DIARY_TIME, DIARY_LOCATION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_diary
+    where DIARY_ID = #{diaryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_diary
+    where DIARY_ID = #{diaryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="nick.model.Diary" >
+    insert into t_diary (DIARY_ID, DIARY_CONTENT, DIARY_PICTURE, 
+      DIARY_USER_BELONGED, DIARY_TIME, DIARY_LOCATION
+      )
+    values (#{diaryId,jdbcType=INTEGER}, #{diaryContent,jdbcType=VARCHAR}, #{diaryPicture,jdbcType=VARCHAR}, 
+      #{diaryUserBelonged,jdbcType=INTEGER}, #{diaryTime,jdbcType=TIMESTAMP}, #{diaryLocation,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="nick.model.Diary" >
+    insert into t_diary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="diaryId != null" >
+        DIARY_ID,
+      </if>
+      <if test="diaryContent != null" >
+        DIARY_CONTENT,
+      </if>
+      <if test="diaryPicture != null" >
+        DIARY_PICTURE,
+      </if>
+      <if test="diaryUserBelonged != null" >
+        DIARY_USER_BELONGED,
+      </if>
+      <if test="diaryTime != null" >
+        DIARY_TIME,
+      </if>
+      <if test="diaryLocation != null" >
+        DIARY_LOCATION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="diaryId != null" >
+        #{diaryId,jdbcType=INTEGER},
+      </if>
+      <if test="diaryContent != null" >
+        #{diaryContent,jdbcType=VARCHAR},
+      </if>
+      <if test="diaryPicture != null" >
+        #{diaryPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="diaryUserBelonged != null" >
+        #{diaryUserBelonged,jdbcType=INTEGER},
+      </if>
+      <if test="diaryTime != null" >
+        #{diaryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diaryLocation != null" >
+        #{diaryLocation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="nick.model.Diary" >
+    update t_diary
+    <set >
+      <if test="diaryContent != null" >
+        DIARY_CONTENT = #{diaryContent,jdbcType=VARCHAR},
+      </if>
+      <if test="diaryPicture != null" >
+        DIARY_PICTURE = #{diaryPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="diaryUserBelonged != null" >
+        DIARY_USER_BELONGED = #{diaryUserBelonged,jdbcType=INTEGER},
+      </if>
+      <if test="diaryTime != null" >
+        DIARY_TIME = #{diaryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diaryLocation != null" >
+        DIARY_LOCATION = #{diaryLocation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DIARY_ID = #{diaryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="nick.model.Diary" >
+    update t_diary
+    set DIARY_CONTENT = #{diaryContent,jdbcType=VARCHAR},
+      DIARY_PICTURE = #{diaryPicture,jdbcType=VARCHAR},
+      DIARY_USER_BELONGED = #{diaryUserBelonged,jdbcType=INTEGER},
+      DIARY_TIME = #{diaryTime,jdbcType=TIMESTAMP},
+      DIARY_LOCATION = #{diaryLocation,jdbcType=VARCHAR}
+    where DIARY_ID = #{diaryId,jdbcType=INTEGER}
+  </update>
+</mapper>
